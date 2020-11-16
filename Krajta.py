@@ -1,18 +1,16 @@
-import random
-#* Simple RNG
 
-print("         _____                   _                     _   _                    _                   _____                                 _               ")
-print("        | ___ \                 | |                   | \ | |                  | |                 |  __ \                               | |              ")
-print("        | |_/ / __ _  _ __    __| |  ___   _ __ ___   |  \| | _   _  _ __ ___  | |__    ___  _ __  | |  \/  ___  _ __    ___  _ __  __ _ | |_  ___   _ __ ")
-print("        |    / / _` || '_ \  / _` | / _ \ | '_ ` _ \  | . ` || | | || '_ ` _ \ | '_ \  / _ \| '__| | | __  / _ \| '_ \  / _ \| '__|/ _` || __|/ _ \ | '__|")
-print("        | |\ \| (_| || | | || (_| || (_) || | | | | | | |\  || |_| || | | | | || |_) ||  __/| |    | |_\ \|  __/| | | ||  __/| |  | (_| || |_| (_) || |   ")
-print("        \_| \_|\__,_||_| |_| \__,_| \___/ |_| |_| |_| \_| \_/ \__,_||_| |_| |_||_.__/  \___||_|     \____/ \___||_| |_| \___||_|   \__,_| \__|\___/ |_|   ")
-                                                                                                                                                        
-print("\n              Welcome to my RNG")   
+#*** COVID DATABASE STUFF***
 
-minimum = int(input("\n             Please type minimal number: "))
-maximum = int(input("\n             Please type maximal number: "))
+f = open("COVID-19.csv", "r")
 
-random_number = random.randint(minimum, maximum)
+def max_in_cz_in_one_day():
+    max_daily_in_cz = 0    
+    for line in f:
+        splitted = line.split(";")
+        if splitted[7] == "CZ":
+            daily_infected = int(splitted[4])
+            if daily_infected >> max_daily_in_cz:
+                max_daily_in_cz = daily_infected
+    print("Max daily infected:", max_daily_in_cz)
 
-print("\n \n             Your awesome random number is:", random_number)
+max_in_cz_in_one_day()

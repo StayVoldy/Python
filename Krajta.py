@@ -1,40 +1,150 @@
 
-#*** COVID DATABASE STUFF***
+import tkinter as tk
+root = tk.Tk()
+black_counter = 0
+white_counter = 0
+size_of_field = 50
+canvas = tk.Canvas(bg="#7cbfbc", width = size_of_field * 10, height = size_of_field * 10)
+canvas.pack()
 
-f = open("COVID-19.csv", "r")
+class Coords:
+    _8 = canvas.create_text(0.5 * size_of_field, 1.5 * size_of_field, text = "8", font = 30)
+    _7 = canvas.create_text(0.5 * size_of_field, 2.5 * size_of_field, text = "7", font = 30)
+    _6 = canvas.create_text(0.5 * size_of_field, 3.5 * size_of_field, text = "6", font = 30)
+    _5 = canvas.create_text(0.5 * size_of_field, 4.5 * size_of_field, text = "5", font = 30)
+    _4 = canvas.create_text(0.5 * size_of_field, 5.5 * size_of_field, text = "4", font = 30)
+    _3 = canvas.create_text(0.5 * size_of_field, 6.5 * size_of_field, text = "3", font = 30)
+    _2 = canvas.create_text(0.5 * size_of_field, 7.5 * size_of_field, text = "2", font = 30)
+    _1 = canvas.create_text(0.5 * size_of_field, 8.5 * size_of_field, text = "1", font = 30)
 
-def daily_max_in_CZ():
-    max_daily_in_CR = 0    
-    for line in f:
-        splitted = line.split(";")
-        if splitted[7] == "CZ":
-            daily_infected_in_CR = int(splitted[4])
-            if daily_infected_in_CR > max_daily_in_CR:
-                max_daily_in_CR = daily_infected_in_CR
-    print("Max daily infected in CR :", max_daily_in_CR)
+    A = canvas.create_text(1.5 * size_of_field, 0.5 * size_of_field, text = "A", font = 30)
+    B = canvas.create_text(2.5 * size_of_field, 0.5 * size_of_field, text = "B", font = 30)
+    C = canvas.create_text(3.5 * size_of_field, 0.5 * size_of_field, text = "C", font = 30)
+    D = canvas.create_text(4.5 * size_of_field, 0.5 * size_of_field, text = "D", font = 30)
+    E = canvas.create_text(5.5 * size_of_field, 0.5 * size_of_field, text = "E", font = 30)
+    F = canvas.create_text(6.5 * size_of_field, 0.5 * size_of_field, text = "F", font = 30)
+    G = canvas.create_text(7.5 * size_of_field, 0.5 * size_of_field, text = "G", font = 30)
+    H = canvas.create_text(8.5 * size_of_field, 0.5 * size_of_field, text = "H", font = 30)
 
-def daily_max_in(country):
-    max_daily_in_country = 0
-    for line in f:
-        splitted = line.split(";")
-        if splitted[7] == country:
-            daily_infected_in_country = int(splitted[4])
-            if daily_infected_in_country > max_daily_in_country:
-                max_daily_in_country = daily_infected_in_country
-                daily_max_date = splitted[0]
-    print("Max daily infected in",country,":", max_daily_in_country, "was at:", daily_max_date)
+fields = {}
+#LINE 1
+fields[A1] = canvas.create_rectangle(1 * size_of_field, 8 * size_of_field, 2 * size_of_field, 9 * size_of_field, fill = "black")
+fields[B1] = canvas.create_rectangle(2 * size_of_field, 8 * size_of_field, 3 * size_of_field, 9 * size_of_field, fill = "white")
+fields[C1] = canvas.create_rectangle(3 * size_of_field, 8 * size_of_field, 4 * size_of_field, 9 * size_of_field, fill = "black")
+fields[D1] = canvas.create_rectangle(4 * size_of_field, 8 * size_of_field, 5 * size_of_field, 9 * size_of_field, fill = "white")
+fields[E1] = canvas.create_rectangle(5 * size_of_field, 8 * size_of_field, 6 * size_of_field, 9 * size_of_field, fill = "black")
+fields[F1] = canvas.create_rectangle(6 * size_of_field, 8 * size_of_field, 7 * size_of_field, 9 * size_of_field, fill = "white")
+fields[G1] = canvas.create_rectangle(7 * size_of_field, 8 * size_of_field, 8 * size_of_field, 9 * size_of_field, fill = "black")
+fields[H1] = canvas.create_rectangle(8 * size_of_field, 8 * size_of_field, 9 * size_of_field, 9 * size_of_field, fill = "white")
 
-def max_infected_in(date):
-    max_in_date = 0
-    for line in f:
-        splitted = line.split(";")
-        if splitted[0] == date:
-            infected_in_date = int(splitted[4])
-            if infected_in_date > max_in_date:
-                max_in_date = infected_in_date
-                max_in_date_country = splitted[6]
-    print("The worst country in", date, "is", max_in_date_country, "with", max_in_date, "new infected")
+#LINE 2
+fields[A2] = canvas.create_rectangle(1 * size_of_field, 7 * size_of_field, 2 * size_of_field, 8 * size_of_field, fill = "white")
+fields[B2] = canvas.create_rectangle(2 * size_of_field, 7 * size_of_field, 3 * size_of_field, 8 * size_of_field, fill = "black")
+fields[C2] = canvas.create_rectangle(3 * size_of_field, 7 * size_of_field, 4 * size_of_field, 8 * size_of_field, fill = "white")
+fields[D2] = canvas.create_rectangle(4 * size_of_field, 7 * size_of_field, 5 * size_of_field, 8 * size_of_field, fill = "black")
+fields[E2] = canvas.create_rectangle(5 * size_of_field, 7 * size_of_field, 6 * size_of_field, 8 * size_of_field, fill = "white")
+fields[F2] = canvas.create_rectangle(6 * size_of_field, 7 * size_of_field, 7 * size_of_field, 8 * size_of_field, fill = "black")
+fields[G2] = canvas.create_rectangle(7 * size_of_field, 7 * size_of_field, 8 * size_of_field, 8 * size_of_field, fill = "white")
+fields[H2] = canvas.create_rectangle(8 * size_of_field, 7 * size_of_field, 9 * size_of_field, 8 * size_of_field, fill = "black")
+#LINE 3
+fields[A3] = canvas.create_rectangle(1 * size_of_field, 6 * size_of_field, 2 * size_of_field, 7 * size_of_field, fill = "black")
+fields[B3] = canvas.create_rectangle(2 * size_of_field, 6 * size_of_field, 3 * size_of_field, 7 * size_of_field, fill = "white")
+fields[C3] = canvas.create_rectangle(3 * size_of_field, 6 * size_of_field, 4 * size_of_field, 7 * size_of_field, fill = "black")
+fields[D3] = canvas.create_rectangle(4 * size_of_field, 6 * size_of_field, 5 * size_of_field, 7 * size_of_field, fill = "white")
+fields[E3] = canvas.create_rectangle(5 * size_of_field, 6 * size_of_field, 6 * size_of_field, 7 * size_of_field, fill = "black")
+fields[F3] = canvas.create_rectangle(6 * size_of_field, 6 * size_of_field, 7 * size_of_field, 7 * size_of_field, fill = "white")
+fields[G3] = canvas.create_rectangle(7 * size_of_field, 6 * size_of_field, 8 * size_of_field, 7 * size_of_field, fill = "black")
+fields[H3] = canvas.create_rectangle(8 * size_of_field, 6 * size_of_field, 9 * size_of_field, 7 * size_of_field, fill = "white")
+#LINE 4
+fields[A4] = canvas.create_rectangle(1 * size_of_field, 5 * size_of_field, 2 * size_of_field, 6 * size_of_field, fill = "white")
+fields[B4] = canvas.create_rectangle(2 * size_of_field, 5 * size_of_field, 3 * size_of_field, 6 * size_of_field, fill = "black")
+fields[C4] = canvas.create_rectangle(3 * size_of_field, 5 * size_of_field, 4 * size_of_field, 6 * size_of_field, fill = "white")
+fields[D4] = canvas.create_rectangle(4 * size_of_field, 5 * size_of_field, 5 * size_of_field, 6 * size_of_field, fill = "black")
+fields[E4] = canvas.create_rectangle(5 * size_of_field, 5 * size_of_field, 6 * size_of_field, 6 * size_of_field, fill = "white")
+fields[F4] = canvas.create_rectangle(6 * size_of_field, 5 * size_of_field, 7 * size_of_field, 6 * size_of_field, fill = "black")
+fields[G4] = canvas.create_rectangle(7 * size_of_field, 5 * size_of_field, 8 * size_of_field, 6 * size_of_field, fill = "white")
+fields[H4] = canvas.create_rectangle(8 * size_of_field, 5 * size_of_field, 9 * size_of_field, 6 * size_of_field, fill = "black")
+#LINE 5
+fields[A5] = canvas.create_rectangle(1 * size_of_field, 4 * size_of_field, 2 * size_of_field, 5 * size_of_field, fill = "black")
+fields[B5] = canvas.create_rectangle(2 * size_of_field, 4 * size_of_field, 3 * size_of_field, 5 * size_of_field, fill = "white")
+fields[C5] = canvas.create_rectangle(3 * size_of_field, 4 * size_of_field, 4 * size_of_field, 5 * size_of_field, fill = "black")
+fields[D5] = canvas.create_rectangle(4 * size_of_field, 4 * size_of_field, 5 * size_of_field, 5 * size_of_field, fill = "white")
+fields[E5] = canvas.create_rectangle(5 * size_of_field, 4 * size_of_field, 6 * size_of_field, 5 * size_of_field, fill = "black")
+fields[F5] = canvas.create_rectangle(6 * size_of_field, 4 * size_of_field, 7 * size_of_field, 5 * size_of_field, fill = "white")
+fields[G5] = canvas.create_rectangle(7 * size_of_field, 4 * size_of_field, 8 * size_of_field, 5 * size_of_field, fill = "black")
+fields[H5] = canvas.create_rectangle(8 * size_of_field, 4 * size_of_field, 9 * size_of_field, 5 * size_of_field, fill = "white")
+#LINE 6
+fields[A6] = canvas.create_rectangle(1 * size_of_field, 3 * size_of_field, 2 * size_of_field, 4 * size_of_field, fill = "white")
+fields[B6] = canvas.create_rectangle(2 * size_of_field, 3 * size_of_field, 3 * size_of_field, 4 * size_of_field, fill = "black")
+fields[C6] = canvas.create_rectangle(3 * size_of_field, 3 * size_of_field, 4 * size_of_field, 4 * size_of_field, fill = "white")
+fields[D6] = canvas.create_rectangle(4 * size_of_field, 3 * size_of_field, 5 * size_of_field, 4 * size_of_field, fill = "black")
+fields[E6] = canvas.create_rectangle(5 * size_of_field, 3 * size_of_field, 6 * size_of_field, 4 * size_of_field, fill = "white")
+fields[F6] = canvas.create_rectangle(6 * size_of_field, 3 * size_of_field, 7 * size_of_field, 4 * size_of_field, fill = "black")
+fields[G6] = canvas.create_rectangle(7 * size_of_field, 3 * size_of_field, 8 * size_of_field, 4 * size_of_field, fill = "white")
+fields[H6] = canvas.create_rectangle(8 * size_of_field, 3 * size_of_field, 9 * size_of_field, 4 * size_of_field, fill = "black")
+#LINE 7
+fields[A7] = canvas.create_rectangle(1 * size_of_field, 2 * size_of_field , 2 * size_of_field, 3 * size_of_field, fill = "black")
+fields[B7] = canvas.create_rectangle(2 * size_of_field, 2 * size_of_field , 3 * size_of_field, 3 * size_of_field, fill = "white")
+fields[C7] = canvas.create_rectangle(3 * size_of_field, 2 * size_of_field , 4 * size_of_field, 3 * size_of_field, fill = "black")
+fields[D7] = canvas.create_rectangle(4 * size_of_field, 2 * size_of_field , 5 * size_of_field, 3 * size_of_field, fill = "white")
+fields[E7] = canvas.create_rectangle(5 * size_of_field, 2 * size_of_field , 6 * size_of_field, 3 * size_of_field, fill = "black")
+fields[F7] = canvas.create_rectangle(6 * size_of_field, 2 * size_of_field , 7 * size_of_field, 3 * size_of_field, fill = "white")
+fields[G7] = canvas.create_rectangle(7 * size_of_field, 2 * size_of_field , 8 * size_of_field, 3 * size_of_field, fill = "black")
+fields[H7] = canvas.create_rectangle(8 * size_of_field, 2 * size_of_field , 9 * size_of_field, 3 * size_of_field, fill = "white")
+#LINE 8
+fields[A8] = canvas.create_rectangle(1 * size_of_field, size_of_field , 2 * size_of_field, 2 * size_of_field , fill = "white")
+fields[B8] = canvas.create_rectangle(2 * size_of_field, size_of_field , 3 * size_of_field, 2 * size_of_field , fill = "black")
+fields[C8] = canvas.create_rectangle(3 * size_of_field, size_of_field , 4 * size_of_field, 2 * size_of_field , fill = "white")
+fields[D8] = canvas.create_rectangle(4 * size_of_field, size_of_field , 5 * size_of_field, 2 * size_of_field , fill = "black")
+fields[E8] = canvas.create_rectangle(5 * size_of_field, size_of_field , 6 * size_of_field, 2 * size_of_field , fill = "white")
+fields[F8] = canvas.create_rectangle(6 * size_of_field, size_of_field , 7 * size_of_field, 2 * size_of_field , fill = "black")
+fields[G8] = canvas.create_rectangle(7 * size_of_field, size_of_field , 8 * size_of_field, 2 * size_of_field , fill = "white")
+fields[H8] = canvas.create_rectangle(8 * size_of_field, size_of_field , 9 * size_of_field, 2 * size_of_field , fill = "black")
 
-#daily_max_in_CZ()
-#daily_max_in("SK")
-max_infected_in("05.03.2020")    #DD.MM.YYYY
+def white_man_spawn():
+    start_position_white = {Fields.A1, Fields.B2, Fields.C1, Fields.D2, Fields.E1, Fields.F2, Fields.G1, Fields.H2}
+    for position in start_position_white:
+        x1 = canvas.coords(position)[0]
+        y1 = canvas.coords(position)[1]
+        x2 = canvas.coords(position)[2]
+        y2 = canvas.coords(position)[3]
+        canvas.create_oval(x1, y1, x2, y2, fill = "white")
+        white_counter = white_counter + 1
+        print(white_counter)
+def black_man_spawn():
+    start_position_black = {Fields.A7, Fields.B8, Fields.C7, Fields.D8, Fields.E7, Fields.F8, Fields.G7, Fields.H8}
+    for position in start_position_black:
+        x1 = canvas.coords(position)[0]
+        y1 = canvas.coords(position)[1]
+        x2 = canvas.coords(position)[2]
+        y2 = canvas.coords(position)[3]
+        canvas.create_oval(x1, y1, x2, y2, fill = "red")
+        black_counter = black_counter + 1
+
+def game():
+    while white_counter != 0 and black_man_spawn != 0:
+        def move_white_man():
+    # Coords input
+            print("Which man you wanna move?\n")
+            chosen_man = input()
+            print("Where do you wanna move it?\n")
+            target_field = input()
+            chosen_man, target_field = chosen_man.upper(), target_field.upper()
+            #! WORK IN PROGRESS
+            chosen_man = eval("Fields.chosen_man")
+            target_field = eval("Fieds.target_field")
+            print(chosen_man, target_field)
+            #! WORK IN PROGRESS
+        move_white_man()
+
+    if white_counter == 0:
+        print(white_counter)
+        canvas.create_rectangle(size_of_field, size_of_field, 9 * size_of_field, 9 * size_of_field, fill = "yellow")
+        canvas.create_text(5 * size_of_field, 5 * size_of_field, text = "Black Wins!", font = 100 )
+    elif black_counter == 0:
+        canvas.create_rectangle(size_of_field, size_of_field, 9 * size_of_field, 9 * size_of_field, fill = "yellow")
+        canvas.create_text(5 * size_of_field, 5 * size_of_field, text = "White Wins!", font = 100 )
+white_man_spawn()
+black_man_spawn()
+game()
+root.mainloop()

@@ -129,27 +129,29 @@ def black_man_spawn():
 
 def game_rules():
     #! RULE 1: mans can move only at BLACK fields
-    black_fields = []
-    for field in fields:
-        #field indexes are from 17 to 80, so start_index compensates this 
-        start_index = 17
-        if field < 8 + start_index and field % 2 != 0:
-            black_fields.append(field)
-        elif field < 16 + start_index and field >= 8 + start_index and field % 2 == 0:
-            black_fields.append(field)
-        elif field < 24 + start_index and field >= 16 + start_index and field % 2 != 0:
-            black_fields.append(field)
-        elif field < 32 + start_index and field >= 24 + start_index and field % 2 == 0:
-            black_fields.append(field)
-        elif field < 40 + start_index and field >= 32 + start_index and field % 2 != 0:
-            black_fields.append(field)
-        elif field < 48 + start_index and field >= 40 + start_index and field % 2 == 0:
-            black_fields.append(field)
-        elif field < 56 + start_index and field >= 48 + start_index and field % 2 != 0:
-            black_fields.append(field)
-        elif field < 64 + start_index and field >= 56 + start_index and field % 2 == 0:
-            black_fields.append(field)
-    
+    def black_fields():
+        black_fields = []
+        for field in fields:
+            #field indexes are from 17 to 80, so start_index compensates this 
+            start_index = 17
+            if field < 8 + start_index and field % 2 != 0:
+                black_fields.append(field)
+            elif field < 16 + start_index and field >= 8 + start_index and field % 2 == 0:
+                black_fields.append(field)
+            elif field < 24 + start_index and field >= 16 + start_index and field % 2 != 0:
+                black_fields.append(field)
+            elif field < 32 + start_index and field >= 24 + start_index and field % 2 == 0:
+                black_fields.append(field)
+            elif field < 40 + start_index and field >= 32 + start_index and field % 2 != 0:
+                black_fields.append(field)
+            elif field < 48 + start_index and field >= 40 + start_index and field % 2 == 0:
+                black_fields.append(field)
+            elif field < 56 + start_index and field >= 48 + start_index and field % 2 != 0:
+                black_fields.append(field)
+            elif field < 64 + start_index and field >= 56 + start_index and field % 2 == 0:
+                black_fields.append(field)
+    black_fields()    
+
 def game():
     while white_counter != 0 and black_counter != 0:
         def move_white_man():

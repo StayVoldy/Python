@@ -1,11 +1,11 @@
 
 import tkinter as tk
 root = tk.Tk()
-size_of_field = 100
+size_of_field = 75
 canvas = tk.Canvas(bg="#7cbfbc", width = size_of_field * 10, height = size_of_field * 10)
 canvas.pack()
 
-class Coords:
+class Coords:               #Coords IDs 1 - 16
     _8 = canvas.create_text(0.5 * size_of_field, 1.5 * size_of_field, text = "8", font = 30)
     _7 = canvas.create_text(0.5 * size_of_field, 2.5 * size_of_field, text = "7", font = 30)
     _6 = canvas.create_text(0.5 * size_of_field, 3.5 * size_of_field, text = "6", font = 30)
@@ -24,9 +24,11 @@ class Coords:
     G = canvas.create_text(7.5 * size_of_field, 0.5 * size_of_field, text = "G", font = 30)
     H = canvas.create_text(8.5 * size_of_field, 0.5 * size_of_field, text = "H", font = 30)
 
+# DON'T you look at this pathetic shit
 A1, B1, C1, D1, E1, F1, G1, H1, A2, B2, C2, D2, E2, F2, G2, H2, A3, B3, C3, D3, E3, F3, G3, H3, A4, B4, C4, D4, E4, F4, G4, H4, A5, B5, C5, D5, E5, F5, G5, H5, A6, B6, C6, D6, E6, F6, G6, H6, A7, B7, C7, D7, E7, F7, G7, H7, A8, B8, C8, D8, E8, F8, G8, H8 = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63
 fields = [A1, B1, C1, D1, E1, F1, G1, H1, A2, B2, C2, D2, E2, F2, G2, H2, A3, B3, C3, D3, E3, F3, G3, H3, A4, B4, C4, D4, E4, F4, G4, H4, A5, B5, C5, D5, E5, F5, G5, H5, A6, B6, C6, D6, E6, F6, G6, H6, A7, B7, C7, D7, E7, F7, G7, H7, A8, B8, C8, D8, E8, F8, G8, H8]
-def fields_render():
+
+def fields_render():        #Field IDs  17 - 80
     #LINE 1
     fields[A1] = canvas.create_rectangle(1 * size_of_field, 8 * size_of_field, 2 * size_of_field, 9 * size_of_field, fill = "black")
     fields[B1] = canvas.create_rectangle(2 * size_of_field, 8 * size_of_field, 3 * size_of_field, 9 * size_of_field, fill = "white")
@@ -100,58 +102,68 @@ def fields_render():
     fields[G8] = canvas.create_rectangle(7 * size_of_field, size_of_field , 8 * size_of_field, 2 * size_of_field , fill = "white")
     fields[H8] = canvas.create_rectangle(8 * size_of_field, size_of_field , 9 * size_of_field, 2 * size_of_field , fill = "black")
 
-def white_man_spawn():
+def white_man_spawn():      #White IDs  81 - 95  odd         Text IDs  82 - 96  even
     global white_counter
+    global white_mans
     white_counter = 0
+    white_mans = []
     start_position_white = {fields[A1], fields[B2], fields[C1], fields[D2], fields[E1], fields[F2], fields[G1], fields[H2]}
     for position in start_position_white:
         x1 = canvas.coords(position)[0]
         y1 = canvas.coords(position)[1]
         x2 = canvas.coords(position)[2]
         y2 = canvas.coords(position)[3]
-        canvas.create_oval(x1, y1, x2, y2, fill = "white")
+        white_mans.append(canvas.create_oval(x1, y1, x2, y2, fill = "white"))
+        canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(white_mans[white_counter]))
+        print("White ID #", white_counter, "=", white_mans[white_counter])
         white_counter = white_counter + 1
-    print("white_counter =", white_counter)
-    return white_counter
-def black_man_spawn():
+    print("white_counter =", white_counter, "\n")
+    return white_counter, white_mans
+def black_man_spawn():      #Black IDs  97 - 111 odd         Text IDs  98 - 112 even
     global black_counter
+    global black_mans
     black_counter = 0
+    black_mans = []
     start_position_black = {fields[A7], fields[B8], fields[C7], fields[D8], fields[E7], fields[F8], fields[G7], fields[H8]}
     for position in start_position_black:
         x1 = canvas.coords(position)[0]
         y1 = canvas.coords(position)[1]
         x2 = canvas.coords(position)[2]
         y2 = canvas.coords(position)[3]
-        canvas.create_oval(x1, y1, x2, y2, fill = "red")
+        black_mans.append(canvas.create_oval(x1, y1, x2, y2, fill = "red"))
+        canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(black_mans[black_counter]))
+        print("Black ID #", black_counter, "=", black_mans[black_counter])
         black_counter = black_counter + 1
-    print("black_counter =", black_counter)
-    return black_counter
+    print("black_counter =", black_counter, "\n")
+    return black_counter, black_mans
+
 
 def game_rules():
     #! RULE 1: mans can move only at BLACK fields
     def black_fields():
         black_fields = []
-        for field in fields:
-            #field indexes are from 17 to 80, so start_index compensates this 
-            start_index = 17
-            if field < 8 + start_index and field % 2 != 0:
+        for field in fields:    #Find and add black fields to array
+            #field ids are from 17 to 80, so start_id compensates this 
+            start_id = 17
+            if field < 8 + start_id and field % 2 != 0:
                 black_fields.append(field)
-            elif field < 16 + start_index and field >= 8 + start_index and field % 2 == 0:
+            elif field < 16 + start_id and field >= 8 + start_id and field % 2 == 0:
                 black_fields.append(field)
-            elif field < 24 + start_index and field >= 16 + start_index and field % 2 != 0:
+            elif field < 24 + start_id and field >= 16 + start_id and field % 2 != 0:
                 black_fields.append(field)
-            elif field < 32 + start_index and field >= 24 + start_index and field % 2 == 0:
+            elif field < 32 + start_id and field >= 24 + start_id and field % 2 == 0:
                 black_fields.append(field)
-            elif field < 40 + start_index and field >= 32 + start_index and field % 2 != 0:
+            elif field < 40 + start_id and field >= 32 + start_id and field % 2 != 0:
                 black_fields.append(field)
-            elif field < 48 + start_index and field >= 40 + start_index and field % 2 == 0:
+            elif field < 48 + start_id and field >= 40 + start_id and field % 2 == 0:
                 black_fields.append(field)
-            elif field < 56 + start_index and field >= 48 + start_index and field % 2 != 0:
+            elif field < 56 + start_id and field >= 48 + start_id and field % 2 != 0:
                 black_fields.append(field)
-            elif field < 64 + start_index and field >= 56 + start_index and field % 2 == 0:
+            elif field < 64 + start_id and field >= 56 + start_id and field % 2 == 0:
                 black_fields.append(field)
-    black_fields()    
-
+        #print(black_fields[10], fields[20])
+        return black_fields
+    black_fields()
 def game():
     while white_counter != 0 and black_counter != 0:
         def move_white_man():

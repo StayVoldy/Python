@@ -1,10 +1,8 @@
-import tkinter as tk
 from Modules.Board import *
 from Modules.Man import *
 
 def white_man_spawn():      #White IDs  81 - 95  odd         Text IDs  82 - 96  even
-    global white_counter
-    white_counter = 0
+    White_Man.counter = 0
     start_position_white = [fields[A1], fields[B2], fields[C1], fields[D2], fields[E1], fields[F2], fields[G1], fields[H2]]
     for position in start_position_white:
         x1 = canvas.coords(position)[0]
@@ -15,16 +13,14 @@ def white_man_spawn():      #White IDs  81 - 95  odd         Text IDs  82 - 96  
         White_Man._id.extend([canvas.create_oval(x1, y1, x2, y2, fill = White_Man.color)])
         White_Man.field.extend([position])
 
-        canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(White_Man._id[white_counter]))
-        white_counter = white_counter + 1
+        canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(White_Man._id[White_Man.counter]))
+        White_Man.counter = White_Man.counter + 1
 
     print("White_Man ID =", White_Man._id)
     print("White_Man Field =", White_Man.field)
-    print("white_counter =", white_counter, "\n")
-    return white_counter
+    print("White_Man.counter =", White_Man.counter, "\n")
 def black_man_spawn():      #Black IDs  97 - 111 odd         Text IDs  98 - 112 even
-    global black_counter
-    black_counter = 0
+    Black_Man.counter = 0
     start_position_black = [fields[A7], fields[B8], fields[C7], fields[D8], fields[E7], fields[F8], fields[G7], fields[H8]]
     for position in start_position_black:
         x1 = canvas.coords(position)[0]
@@ -35,13 +31,12 @@ def black_man_spawn():      #Black IDs  97 - 111 odd         Text IDs  98 - 112 
         Black_Man._id.extend([canvas.create_oval(x1, y1, x2, y2, fill = Black_Man.color)])
         Black_Man.field.extend([position])
 
-        canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(Black_Man._id[black_counter]))
-        black_counter = black_counter + 1
+        canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(Black_Man._id[Black_Man.counter]))
+        Black_Man.counter = Black_Man.counter + 1
 
     print("Black_Man ID =", Black_Man._id)
     print("Black_Man Field =", Black_Man.field)
-    print("black_counter =", black_counter, "\n")
-    return black_counter
+    print("Black_Man.counter =", Black_Man.counter, "\n")
 
 def find_black_fields():    #Func just to identify playable fields
     global black_fields
@@ -65,11 +60,11 @@ def find_black_fields():    #Func just to identify playable fields
             black_fields.append(field)
         elif field < 64 + start_id and field >= 56 + start_id and field % 2 == 0:
             black_fields.append(field)
-    #print(black_fields[10], fields[20])
+    #print(black_fields, len(black_fields))
     return black_fields
 
-def game():
-    while white_counter != 0 and black_counter != 0:
+def game():                 #You may guess, what this does
+    while White_Man.counter != 0 and Black_Man.counter != 0:
         def move_white_man():
             def check_input():
                 valid_turn = False
@@ -77,14 +72,14 @@ def game():
                 global target_white_field
                 global empty_fields
 
-                empty_fields = black_fields   # Choose valid fields from black_fields
+                empty_fields = []
+                empty_fields.extend(black_fields)           # Choose valid fields from black_fields
                 for field in White_Man.field:
                     if field in empty_fields:
                         empty_fields.remove(field)
                 for field in Black_Man.field:
                     if field in empty_fields:
                         empty_fields.remove(field)
-
                 print("\n___WHITE PLAYER'S TURN___\n")
                 while valid_turn == False:
                     # Coords input
@@ -94,8 +89,8 @@ def game():
                     target_white_field = input()
                     chosen_white_man, target_white_field = chosen_white_man.upper(), target_white_field.upper()
                     if chosen_white_man in field_dict and target_white_field in field_dict:
-                        chosen_white_man, target_white_field = field_dict.index(chosen_white_man)+17, field_dict.index(target_white_field)+17
-                        if chosen_white_man in White_Man.field and (target_white_field == chosen_white_man+7 or target_white_field == chosen_white_man+9) and target_white_field in empty_fields:
+                        chosen_white_man, target_white_field = field_dict.index(chosen_white_man)+17, field_dict.index(target_white_field)+17           #Field IDs starts at canvas ID 17
+                        if chosen_white_man in White_Man.field and (target_white_field == chosen_white_man+7 or target_white_field == chosen_white_man+9 or (target_white_field == chosen_white_man+14 and chosen_white_man+7 in Black_Man.field) or (target_white_field == chosen_white_man+18 and chosen_white_man+9 in Black_Man.field)) and target_white_field in empty_fields:
                             valid_turn = True  
                             return chosen_white_man, target_white_field
                         else:
@@ -103,6 +98,18 @@ def game():
                     else:
                         print("!!!INVALID INPUT!!!")
             check_input()
+
+            #! MECHANISM OF REMOVED BLACK MAN
+            if (target_white_field == chosen_white_man+14 and chosen_white_man+7 in Black_Man.field):
+                Black_Man.counter = Black_Man.counter - 1
+                canvas.delete(Black_Man._id[Black_Man.field.index(chosen_white_man+7)])
+                del Black_Man._id[Black_Man.field.index(chosen_white_man+7)]
+                del Black_Man.field[Black_Man.field.index(chosen_white_man+7)]
+            elif (target_white_field == chosen_white_man+18 and chosen_white_man+9 in Black_Man.field):
+                Black_Man.counter = Black_Man.counter - 1
+                canvas.delete(Black_Man._id[Black_Man.field.index(chosen_white_man+9)])
+                del Black_Man._id[Black_Man.field.index(chosen_white_man+9)]
+                del Black_Man.field[Black_Man.field.index(chosen_white_man+9)]
 
             canvas.delete(White_Man._id[White_Man.field.index(chosen_white_man)])
             del White_Man._id[White_Man.field.index(chosen_white_man)]
@@ -114,11 +121,12 @@ def game():
 
             White_Man._id.extend([canvas.create_oval(x1, y1, x2, y2, fill = White_Man.color)])
             White_Man.field.extend([target_white_field])
-            canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(White_Man._id[white_counter-1]))
+            canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(White_Man._id[White_Man.counter-1]))
             print("White_Man ID =", White_Man._id)
             print("White_Man Field =", White_Man.field)
-            print("white_counter =", white_counter, "\n")
+            print("White_Man.counter =", White_Man.counter)
         move_white_man()
+
         def move_black_man():
             def check_input():
                 valid_turn = False
@@ -126,14 +134,14 @@ def game():
                 global target_black_field
                 global empty_fields
 
-                empty_fields = black_fields   # Choose valid fields from black_fields
+                empty_fields = []
+                empty_fields.extend(black_fields)
                 for field in Black_Man.field:
                     if field in empty_fields:
                         empty_fields.remove(field)
                 for field in Black_Man.field:
                     if field in empty_fields:
                         empty_fields.remove(field)
-
                 print("\n___BLACK PLAYER'S TURN___\n")
                 while valid_turn == False:
                     # Coords input
@@ -144,14 +152,26 @@ def game():
                     chosen_black_man, target_black_field = chosen_black_man.upper(), target_black_field.upper()
                     if chosen_black_man in field_dict and target_black_field in field_dict:
                         chosen_black_man, target_black_field = field_dict.index(chosen_black_man)+17, field_dict.index(target_black_field)+17
-                        if chosen_black_man in Black_Man.field and (target_black_field == chosen_black_man-7 or target_black_field == chosen_black_man-9) and target_black_field in empty_fields:
-                            valid_turn = True  
+                        if chosen_black_man in Black_Man.field and (target_black_field == chosen_black_man-7 or target_black_field == chosen_black_man-9 or (target_black_field == chosen_black_man-14 and chosen_black_man-7 in White_Man.field) or (target_black_field == chosen_black_man-18 and chosen_black_man-9 in White_Man.field)) and target_black_field in empty_fields:
+                            valid_turn = True
                             return chosen_black_man, target_black_field
                         else:
                             print("!!!INVALID INPUT!!!")
                     else:
                         print("!!!INVALID INPUT!!!")
             check_input()
+
+            #! MECHANISM OF REMOVED WHITE MAN
+            if (target_black_field == chosen_black_man-14 and chosen_black_man-7 in White_Man.field):
+                White_Man.counter = White_Man.counter - 1
+                canvas.delete(White_Man._id[White_Man.field.index(chosen_black_man-7)])
+                del White_Man._id[White_Man.field.index(chosen_black_man-7)]
+                del White_Man.field[White_Man.field.index(chosen_black_man-7)]
+            elif (target_black_field == chosen_black_man-18 and chosen_black_man-9 in White_Man.field):
+                White_Man.counter = White_Man.counter - 1
+                canvas.delete(White_Man._id[White_Man.field.index(chosen_black_man-9)])
+                del White_Man._id[White_Man.field.index(chosen_black_man-9)]
+                del White_Man.field[White_Man.field.index(chosen_black_man-9)]
 
             canvas.delete(Black_Man._id[Black_Man.field.index(chosen_black_man)])
             del Black_Man._id[Black_Man.field.index(chosen_black_man)]
@@ -163,17 +183,16 @@ def game():
 
             Black_Man._id.extend([canvas.create_oval(x1, y1, x2, y2, fill = Black_Man.color)])
             Black_Man.field.extend([target_black_field])
-            canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(Black_Man._id[black_counter-1]))
+            canvas.create_text((x1+x2)/2, (y1+y2)/2, text = "ID = " + str(Black_Man._id[Black_Man.counter-1]))
             print("Black_Man ID =", Black_Man._id)
             print("Black_Man Field =", Black_Man.field)
-            print("black_counter =", black_counter, "\n")
+            print("Black_Man.counter =", Black_Man.counter)
         move_black_man()
 
-    if white_counter == 0:
-        print(white_counter)
+    if White_Man.counter == 0:
         canvas.create_rectangle(size_of_field, size_of_field, 9 * size_of_field, 9 * size_of_field, fill = "yellow")
         canvas.create_text(5 * size_of_field, 5 * size_of_field, text = "Black Wins!", font = 100 )
-    elif black_counter == 0:
+    elif Black_Man.counter == 0:
         canvas.create_rectangle(size_of_field, size_of_field, 9 * size_of_field, 9 * size_of_field, fill = "yellow")
         canvas.create_text(5 * size_of_field, 5 * size_of_field, text = "White Wins!", font = 100 )
 

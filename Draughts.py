@@ -3,7 +3,7 @@ from Modules.Man import *
 
 def white_man_spawn():      #White IDs  81 - 95  odd         Text IDs  82 - 96  even
     White_Man.counter = 0
-    start_position_white = [fields[C7]]#, fields[B2], fields[C1], fields[D2], fields[E1], fields[F2], fields[G1], fields[H2]]
+    start_position_white = [fields[A1], fields[B2], fields[C1], fields[D2], fields[E1], fields[F2], fields[G1], fields[H2]]
     for position in start_position_white:
         x1 = canvas.coords(position)[0]
         y1 = canvas.coords(position)[1]
@@ -21,7 +21,7 @@ def white_man_spawn():      #White IDs  81 - 95  odd         Text IDs  82 - 96  
     print("White_Man.counter =", White_Man.counter, "\n")
 def black_man_spawn():      #Black IDs  97 - 111 odd         Text IDs  98 - 112 even
     Black_Man.counter = 0
-    start_position_black = [fields[A7]]#, fields[B8], fields[C7], fields[D8], fields[E7], fields[F8], fields[G7], fields[H8]]
+    start_position_black = [fields[A7], fields[B8], fields[C7], fields[D8], fields[E7], fields[F8], fields[G7], fields[H8]]
     for position in start_position_black:
         x1 = canvas.coords(position)[0]
         y1 = canvas.coords(position)[1]
